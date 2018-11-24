@@ -17,15 +17,13 @@ branches:
     - master #-> QA/staging
     - develop # -> DevServer
 
-#before install
-before_install:
-  - wget https://phar.phpunit.de/phpunit-6.5.phar
-  - chmod +x phpunit-6.5.phar
-  - sudo mv phpunit-6.5.phar /usr/local/bin/phpunit
-  - phpunit --version
-#Install
-install:
-#before scipt -> sebelum melakukan main execution
+#jalankan install package dll
 before_script:
+  - cp .env.travis .env
+  - composer install --no-interaction
+  - php artisan key:generate
 # scrip -> main executing
-scrip:
+script:
+  - ./vendor/bin/phpunit
+#ketika kondisi main execution finish
+after_success:
